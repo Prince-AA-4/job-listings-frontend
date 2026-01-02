@@ -8,7 +8,12 @@ import {
   Typography,
   Paper,
   Alert,
-  CircularProgress
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from '@mui/material';
 import axios from 'axios';
 
@@ -20,6 +25,10 @@ const Login = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const[openForgot, setOpenForgot]= useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotStatus, setForgotStatus] = useState({ type: '', msg: '' });
+  const [forgotLoading, setForgotLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -54,10 +63,41 @@ const Login = () => {
       } else {
         navigate('/jobs');
       }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } catch (error) {
+      setError(error.response?.data?.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!forgotEmail) {
+      setForgotStatus({ type: 'error', msg: 'Please enter your email.' });
+      return;
+    }
+    setForgotLoading(true);
+    setForgotStatus({ type: '', msg: '' });
+
+    try {
+      await axios.post('http://localhost:5600/api/passwords/request-reset', { 
+        email: forgotEmail 
+      });
+      setForgotStatus({ 
+        type: 'success', 
+        msg: 'If that email exists, a reset link has been sent!' 
+      });
+
+      setTimeout(() => {
+        setOpenForgot(false);
+        setForgotStatus({ type: '', msg: '' });
+      }, 3000);
+    } catch (err) {
+      setForgotStatus({ 
+        type: 'error', 
+        msg: 'Failed to send request. Please try again later.' 
+      });
+    } finally {
+      setForgotLoading(false);
     }
   };
 
@@ -121,6 +161,16 @@ const Login = () => {
             >
               {loading ? <CircularProgress size={24} /> : 'Login'}
             </Button>
+            <Box sx={{ textAlign: 'right' }}>
+              <Button 
+                variant="text" 
+                size="small" 
+                onClick={() => setOpenForgot(true)}
+                sx={{ textTransform: 'none' }}
+              >
+                Forgot Password?
+              </Button>
+            </Box>
 
             <Box sx={{ textAlign: 'center', mt: 2 }}>
               <Typography variant="body2">
@@ -133,6 +183,40 @@ const Login = () => {
           </Box>
         </Paper>
       </Box>
+      <Dialog open={openForgot} onClose={() => setOpenForgot(false)}>
+        <DialogTitle>Reset Password</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ mb: 2 }}>
+            Enter your email address and we'll send you a link to reset your password.
+          </DialogContentText>
+          
+          {forgotStatus.msg && (
+            <Alert severity={forgotStatus.type} sx={{ mb: 2 }}>{forgotStatus.msg}</Alert>
+          )}
+
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="outlined"
+            value={forgotEmail}
+            onChange={(e) => setForgotEmail(e.target.value)}
+            disabled={forgotLoading}
+          />
+        </DialogContent>
+        <DialogActions sx={{ p: 3 }}>
+          <Button onClick={() => setOpenForgot(false)} color="inherit">Cancel</Button>
+          <Button 
+            onClick={handleForgotPassword} 
+            variant="contained" 
+            disabled={forgotLoading}
+          >
+            {forgotLoading ? <CircularProgress size={20} /> : "Send Link"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

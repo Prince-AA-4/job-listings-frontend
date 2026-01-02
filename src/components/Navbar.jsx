@@ -93,7 +93,7 @@ const Navbar = () => {
         <Box sx={{ flexGrow: 1, display: 'flex', gap: 1 }}>
           <Button
             color="inherit"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/jobs')}
             sx={{
               fontWeight: isActive('/') || isActive('/jobs') ? 'bold' : 'normal',
               borderBottom: isActive('/') || isActive('/jobs') ? '2px solid white' : 'none'
@@ -255,7 +255,7 @@ const Navbar = () => {
           </Box>
         ) : (
           // Not logged in - show Login and Register buttons
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          (<Box sx={{ display: 'flex', gap: 1 }}>
             <Button
               color="inherit"
               startIcon={<LoginIcon />}
@@ -279,7 +279,7 @@ const Navbar = () => {
             >
               Register
             </Button>
-          </Box>
+          </Box>)
         )}
       </Toolbar>
     </AppBar>

@@ -4,7 +4,6 @@ import {
   Container,
   Typography,
   Box,
-  Grid,
   Card,
   CardContent,
   CircularProgress,
@@ -19,6 +18,7 @@ import {
   Paper,
   Chip,
 } from "@mui/material";
+import Grid from '@mui/material/Grid';
 import {
   People as PeopleIcon,
   Business as BusinessIcon,
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:5000/api/admin/dashboard",
+        "http://localhost:5600/api/admin/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
@@ -94,7 +94,7 @@ const AdminDashboard = () => {
 
       {/* Overview Statistics */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid xs={12} sm={6} md={3}>
+        <Grid size={{xs:12, sm:6, md:3}}>
           <Card sx={{ bgcolor: "primary.main", color: "white" }}>
             <CardContent>
               <Box
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid size={{xs:12, sm:6, md:3}}>
           <Card sx={{ bgcolor: "success.main", color: "white" }}>
             <CardContent>
               <Box
@@ -138,7 +138,7 @@ const AdminDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid size={{xs:12, sm:6, md:3}}>
           <Card sx={{ bgcolor: "warning.main", color: "white" }}>
             <CardContent>
               <Box
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid size={{xs:12, sm:6, md:3}}>
           <Card sx={{ bgcolor: "info.main", color: "white" }}>
             <CardContent>
               <Box
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
 
       {/* Recent Activity */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid xs={12} md={4}>
+        <Grid size={{xs:12, md:4}}>
           <Card>
             <CardContent>
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
@@ -233,7 +233,7 @@ const AdminDashboard = () => {
         </Grid>
 
         {/* Users by Role */}
-        <Grid xs={12} md={4}>
+        <Grid size={{xs:12, md:4}}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom fontWeight="bold">
@@ -273,7 +273,7 @@ const AdminDashboard = () => {
         </Grid>
 
         {/* Jobs by Status */}
-        <Grid xs={12} md={4}>
+        <Grid size={{xs:12, md: 4}}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom fontWeight="bold">
@@ -311,7 +311,7 @@ const AdminDashboard = () => {
 
       {/* Job Types and Application Status */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid xs={12} md={6}>
+        <Grid size={{xs:12, md:6}}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom fontWeight="bold">
@@ -355,7 +355,7 @@ const AdminDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{xs:12, md:6}}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom fontWeight="bold">

@@ -61,8 +61,6 @@ const Hero = () => {
         }}
       >
         <Button
-          // component={Link}
-          // to="/home"
           variant="contained"
           sx={{
             backgroundColor: "blue",

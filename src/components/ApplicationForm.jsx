@@ -1,258 +1,295 @@
 import { useState } from "react";
 import {
   Box,
-  Grid,
-  TextField,
   Button,
-  MenuItem,
+  Typography,
+  Alert,
   FormControlLabel,
   Checkbox,
-  Typography,
-  Select,
-  InputLabel,
-  FormControl,
+  CircularProgress,
+  Card,
+  CardContent,
+  Divider,
 } from "@mui/material";
+import {
+  CloudUpload as UploadIcon,
+  CheckCircle as CheckIcon,
+  Person as PersonIcon,
+  Email as EmailIcon,
+} from "@mui/icons-material";
+import axios from "axios";
 
-const initial = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  location: "",
-  linkedin: "",
-  portfolio: "",
-  availability: "immediate",
-  salary: "",
-  coverLetter: "",
-  consent: false,
-};
-
-export default function JobApplicationForm({ jobId }) {
-  const [values, setValues] = useState(initial);
+function JobApplicationForm({ jobId, onSuccess }) {
   const [resume, setResume] = useState(null);
+  const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  // Get current user info from localStorage
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const validate = () => {
     const e = {};
-    if (!values.firstName.trim()) e.firstName = "Required";
-    if (!values.lastName.trim()) e.lastName = "Required";
-    if (!values.email.trim() || !/^\S+@\S+\.\S+$/.test(values.email)) e.email = "Valid email required";
-    if (!values.phone.trim()) e.phone = "Required";
-    if (!resume) e.resume = "Resume is required";
-    if (!values.coverLetter.trim()) e.coverLetter = "Please add a short note";
-    if (!values.consent) e.consent = "Please accept to proceed";
+    if (!resume) {
+      e.resume = "Please upload your resume";
+    } else {
+      // Check file type
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      if (!allowedTypes.includes(resume.type)) {
+        e.resume = "Only PDF and Word documents are allowed";
+      }
+      // Check file size (5MB max)
+      if (resume.size > 5 * 1024 * 1024) {
+        e.resume = "File size must be less than 5MB";
+      }
+    }
+    if (!consent) {
+      e.consent = "You must accept the terms to proceed";
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
-  const handleChange = (field) => (e) =>
-    setValues((v) => ({ ...v, [field]: e.target.value }));
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setResume(file);
+      setErrors({ ...errors, resume: "" });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+
     if (!validate()) return;
+
     setSubmitting(true);
+
     try {
-      const form = new FormData();
-      form.append("jobId", jobId ?? "");
-      Object.entries(values).forEach(([k, v]) => form.append(k, v));
-      form.append("resume", resume);
+      const token = localStorage.getItem("token");
 
-      const res = await fetch("/api/applications", {
-        method: "POST",
-        body: form,
-      });
+      const formData = new FormData(); 
+      formData.append("resume", resume);
 
-      if (!res.ok) throw new Error("Failed to submit");
+        try {
+          const response = await axios.post(
+            `http://localhost:5600/api/applications/${jobId}`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/formdata",
+              },
+              withCredentials: true,
+            }
+          );
 
-      setValues(initial);
-      setResume(null);
-      setErrors({});
-      alert("Application submitted successfully!");
+          setSuccess("Application submitted successfully!");
+          setResume(null);
+          setConsent(false);
+          setErrors({});
+
+          // Reset file input
+          const fileInput = document.getElementById("resume-upload");
+          if (fileInput) fileInput.value = "";
+
+          // Call success callback if provided
+          if (onSuccess) {
+            setTimeout(() => onSuccess(), 2000);
+          }
+        } catch (err) {
+          setError(
+            err.response?.data?.message ||
+              "Failed to submit application. Please try again."
+          );
+        } finally {
+          setSubmitting(false);
+        }
+      
+
+      reader.onerror = () => {
+        setError("Failed to read file. Please try again.");
+        setSubmitting(false);
+      };
     } catch (err) {
-      alert("There was a problem submitting your application.");
-    } finally {
+      setError("An unexpected error occurred. Please try again.");
       setSubmitting(false);
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 900, mx: "auto", p: 3 }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        Apply for this job
+    <Box sx={{ maxWidth: 600, mx: "auto", p: 3 }}>
+      <Typography variant="h5" fontWeight="bold" gutterBottom>
+        Apply for this Position
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Submit your application with your resume. Your profile information will
+        be used automatically.
       </Typography>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="First name"
-            value={values.firstName}
-            onChange={handleChange("firstName")}
-            error={!!errors.firstName}
-            helperText={errors.firstName}
-            fullWidth
-            required
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Last name"
-            value={values.lastName}
-            onChange={handleChange("lastName")}
-            error={!!errors.lastName}
-            helperText={errors.lastName}
-            fullWidth
-            required
-          />
-        </Grid>
+      {/* User Info Card */}
+      <Card sx={{ mb: 3, bgcolor: "background.default" }}>
+        <CardContent>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            Application will be submitted with:
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>
+            <PersonIcon fontSize="small" color="primary" />
+            <Typography variant="body2">
+              <strong>Name:</strong>{" "}
+              {user.fullName || user.userName || "Not available"}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>
+            <EmailIcon fontSize="small" color="primary" />
+            <Typography variant="body2">
+              <strong>Email:</strong> {user.email || "Not available"}
+            </Typography>
+          </Box>
+          {user.contact && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1 }}>
+              <Typography variant="body2">
+                <strong>Contact:</strong> {user.contact}
+              </Typography>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
 
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Email"
-            type="email"
-            value={values.email}
-            onChange={handleChange("email")}
-            error={!!errors.email}
-            helperText={errors.email}
-            fullWidth
-            required
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Phone"
-            value={values.phone}
-            onChange={handleChange("phone")}
-            error={!!errors.phone}
-            helperText={errors.phone}
-            fullWidth
-            required
-          />
-        </Grid>
+      <Divider sx={{ my: 3 }} />
 
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Location (City, Country)"
-            value={values.location}
-            onChange={handleChange("location")}
-            fullWidth
-          />
-        </Grid>
+      {/* Success Message */}
+      {success ? (
+        <Alert
+          severity="success"
+          sx={{ mb: 3 }}
+          icon={<CheckIcon />}
+          onClose={() => setSuccess("")}
+        >
+          {success}
+        </Alert>
+      ): (
+        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError("")}>
+          {error}
+        </Alert>
+      )}
 
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel id="availability-label">Availability</InputLabel>
-            <Select
-              labelId="availability-label"
-              label="Availability"
-              value={values.availability}
-              onChange={handleChange("availability")}
-            >
-              <MenuItem value="immediate">Immediate</MenuItem>
-              <MenuItem value="2-weeks">2 weeks</MenuItem>
-              <MenuItem value="1-month">1 month</MenuItem>
-              <MenuItem value="negotiable">Negotiable</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="LinkedIn URL"
-            value={values.linkedin}
-            onChange={handleChange("linkedin")}
-            fullWidth
-            placeholder="https://linkedin.com/in/username"
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Portfolio or GitHub URL"
-            value={values.portfolio}
-            onChange={handleChange("portfolio")}
-            fullWidth
-            placeholder="https://yourportfolio.com"
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Salary expectation (optional)"
-            value={values.salary}
-            onChange={handleChange("salary")}
-            fullWidth
-            placeholder="e.g. 5000 GHS/month"
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
+      {/* Form */}
+      <Box component="form" onSubmit={handleSubmit}>
+        {/* Resume Upload */}
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" gutterBottom fontWeight="500">
+            Upload Resume *
+          </Typography>
           <Button
             variant="outlined"
             component="label"
             fullWidth
-            color={errors.resume ? "error" : "primary"}
+            size="large"
+            startIcon={resume ? <CheckIcon /> : <UploadIcon />}
+            color={errors.resume ? "error" : resume ? "success" : "primary"}
+            sx={{
+              py: 2,
+              justifyContent: "flex-start",
+              textTransform: "none",
+            }}
           >
-            {resume ? "Resume attached" : "Upload resume (PDF, DOCX)"}
+            {resume ? `✓ ${resume.name}` : "Choose file (PDF or Word)"}
             <input
+              id="resume-upload"
               hidden
               type="file"
               accept=".pdf,.doc,.docx"
-              onChange={(e) => setResume(e.target.files?.[0] ?? null)}
+              onChange={handleFileChange}
             />
           </Button>
           {errors.resume && (
-            <Typography variant="caption" color="error">
+            <Typography
+              variant="caption"
+              color="error"
+              sx={{ mt: 1, display: "block" }}
+            >
               {errors.resume}
             </Typography>
           )}
-        </Grid>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ mt: 1, display: "block" }}
+          >
+            Accepted formats: PDF, DOC, DOCX (Max 5MB)
+          </Typography>
+        </Box>
 
-        <Grid item xs={12}>
-          <TextField
-            label="Cover letter / motivation"
-            value={values.coverLetter}
-            onChange={handleChange("coverLetter")}
-            error={!!errors.coverLetter}
-            helperText={errors.coverLetter || "Briefly explain why you’re a strong fit."}
-            fullWidth
-            multiline
-            minRows={5}
-            required
-          />
-        </Grid>
-
-        <Grid item xs={12}>
+        {/* Consent Checkbox */}
+        <Box sx={{ mb: 3 }}>
           <FormControlLabel
             control={
               <Checkbox
-                checked={values.consent}
-                onChange={(e) =>
-                  setValues((v) => ({ ...v, consent: e.target.checked }))
-                }
+                checked={consent}
+                onChange={(e) => {
+                  setConsent(e.target.checked);
+                  setErrors({ ...errors, consent: "" });
+                }}
+                color={errors.consent ? "error" : "primary"}
               />
             }
-            label="I consent to my data being used to process this application."
+            label={
+              <Typography variant="body2">
+                I consent to my data being processed for this job application
+                and agree to the terms and conditions.
+              </Typography>
+            }
           />
           {errors.consent && (
-            <Typography variant="caption" color="error">
+            <Typography
+              variant="caption"
+              color="error"
+              sx={{ display: "block", ml: 4 }}
+            >
               {errors.consent}
             </Typography>
           )}
-        </Grid>
+        </Box>
 
-        <Grid item xs={12}>
-          <Button
-            type="submit"
-            variant="contained"
-            size="large"
-            disabled={submitting}
-          >
-            {submitting ? "Submitting..." : "Submit application"}
-          </Button>
-        </Grid>
-      </Grid>
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          fullWidth
+          disabled={submitting}
+          sx={{ py: 1.5 }}
+        >
+          {submitting ? (
+            <>
+              <CircularProgress size={20} sx={{ mr: 1 }} />
+              Submitting Application...
+            </>
+          ) : (
+            "Submit Application"
+          )}
+        </Button>
+
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ mt: 2, display: "block", textAlign: "center" }}
+        >
+          By submitting, you agree that the employer can contact you regarding
+          this application.
+        </Typography>
+      </Box>
     </Box>
   );
 }
+
+export default JobApplicationForm;

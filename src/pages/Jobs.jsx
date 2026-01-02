@@ -43,32 +43,36 @@ const JobsList = () => {
   });
 
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    fetchJobs(true);
+  }, [filters]);
 
-  const fetchJobs = async () => {
-    try {
-      setLoading(true);
-      const queryParams = new URLSearchParams();
-      
+const fetchJobs = async (applyFilters = true) => {
+  try {
+    setLoading(true);
+    const queryParams = new URLSearchParams();
+
+    // Only append filters if applyFilters is true
+    if (applyFilters) {
       if (filters.search) queryParams.append('search', filters.search);
       if (filters.status) queryParams.append('status', filters.status);
       if (filters.jobType) queryParams.append('jobType', filters.jobType);
       if (filters.location) queryParams.append('location', filters.location);
-
-      const response = await axios.get(
-        `http://localhost:5600/api/jobs?${queryParams.toString()}`
-      );
-      
-      setJobs(response.data.jobs);
-      setError('');
-    } catch (err) {
-      setError('Failed to fetch jobs. Please try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
     }
-  };
+
+    const response = await axios.get(
+      `http://localhost:5600/api/jobs?${queryParams.toString()}`
+    );
+
+    setJobs(response.data.jobs);
+    setError('');
+  } catch (err) {
+    setError('Failed to fetch jobs. Please try again.');
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleFilterChange = (e) => {
     setFilters({
@@ -125,11 +129,14 @@ const JobsList = () => {
           Browse through {jobs.length} available positions
         </Typography>
       </Box>
-
       {/* Filters */}
       <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid xs={12} md={4}>
+          <Grid
+            size={{
+              xs: 12,
+              md: 4
+            }}>
             <TextField
               fullWidth
               placeholder="Search jobs..."
@@ -145,7 +152,12 @@ const JobsList = () => {
               }}
             />
           </Grid>
-          <Grid xs={12} sm={6} md={2}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 2
+            }}>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
               <Select
@@ -160,7 +172,12 @@ const JobsList = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid xs={12} sm={6} md={2}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 2
+            }}>
             <FormControl fullWidth>
               <InputLabel>Job Type</InputLabel>
               <Select
@@ -176,7 +193,12 @@ const JobsList = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid xs={12} sm={8} md={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 8,
+              md: 3
+            }}>
             <TextField
               fullWidth
               placeholder="Location"
@@ -192,7 +214,12 @@ const JobsList = () => {
               }}
             />
           </Grid>
-          <Grid xs={12} sm={4} md={1}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4,
+              md: 1
+            }}>
             <Button
               fullWidth
               variant="contained"
@@ -204,14 +231,12 @@ const JobsList = () => {
           </Grid>
         </Grid>
       </Paper>
-
       {/* Error Message */}
       {error && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {error}
         </Alert>
       )}
-
       {/* Jobs Grid */}
       {jobs.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 8 }}>
@@ -222,7 +247,12 @@ const JobsList = () => {
       ) : (
         <Grid container spacing={3}>
           {jobs.map((job) => (
-            <Grid xs={12} md={6} key={job.id}>
+            <Grid
+              key={job.id}
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Card
                 sx={{
                   height: '100%',
@@ -231,6 +261,7 @@ const JobsList = () => {
                   '&:hover': {
                     transform: 'translateY(-4px)',
                     boxShadow: 4
+
                   }
                 }}
                 onClick={() => handleCardClick(job.id)}

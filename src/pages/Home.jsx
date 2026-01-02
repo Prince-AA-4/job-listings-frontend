@@ -18,7 +18,6 @@ const Home = () => {
     <Box>
       {/* Hero Section with Background Image */}
       <HeroSection />
-
       {/* Hero Content Overlay */}
       <Box
         sx={{
@@ -100,7 +99,6 @@ const Home = () => {
           </Box>
         </Container>
       </Box>
-
       {/* Features Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography
@@ -114,7 +112,13 @@ const Home = () => {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3
+            }}>
             <Card
               sx={{
                 height: "300",
@@ -138,7 +142,13 @@ const Home = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3
+            }}>
             <Card
               sx={{
                 height: "300",
@@ -162,7 +172,13 @@ const Home = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3
+            }}>
             <Card
               sx={{
                 height: "300",
@@ -186,7 +202,13 @@ const Home = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3
+            }}>
             <Card
               sx={{
                 height: "300",
@@ -213,7 +235,6 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
-
       {/* Call to Action Section */}
       <Box
         sx={{

@@ -200,13 +200,11 @@ const MyCompanies = () => {
           Add Company
         </Button>
       </Box>
-
       {error && (
         <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
-
       {/* Companies Grid */}
       {companies.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 8 }}>
@@ -228,7 +226,12 @@ const MyCompanies = () => {
       ) : (
         <Grid container spacing={3}>
           {companies.map((company) => (
-            <Grid xs={12} md={6} key={company.id}>
+            <Grid
+              key={company.id}
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Card
                 sx={{
                   height: "100%",
@@ -352,7 +355,6 @@ const MyCompanies = () => {
           ))}
         </Grid>
       )}
-
       {/* Add/Edit Dialog */}
       <Dialog
         open={openDialog}

@@ -12,6 +12,16 @@ import MyCompanies from './pages/MyCompanies.jsx';
 import MyApplications from './pages/MyApplications.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import UserProfile from './pages/UserProfile.jsx';
+import JobDetails from './pages/JobDetails.jsx';
+import MyJobPosts from './pages/MyJobPosts.jsx';
+import CompanyDetails from './pages/CompanyDetails.jsx';
+import Companies from './pages/Companies.jsx';
+import UsersManagement from './pages/UsersManagement.jsx';
+import CompaniesManagement from './pages/CompaniesManagement.jsx';
+import JobsManagement from './pages/JobsManagement.jsx';
+import ApplicationsManagement from './pages/ApplicationManagement.jsx';
+import ApplicationsPage from './pages/EmployersApplications.jsx';
+import ResetPassword from './pages/RessetPassword.jsx';
 
 const theme = createTheme({
   palette: {
@@ -47,6 +57,26 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
             {/* User Profile page  */}
             <Route path="/profile" element={<UserProfile />} />
+            {/* Job Details page */}
+            <Route path='/jobs/:id' element={<JobDetails/>}/>
+            {/* companies list page */}
+            <Route path="/companies" element={<Companies />} />
+            {/* company details page(individual basis) */}
+            <Route path="/companies/:id" element={<CompanyDetails />} />
+            {/* Job posts by an Employer page */}
+            <Route path="/my-jobs" element={<MyJobPosts />} />
+            {/* All users Manipulation page */}
+            <Route path="/admin/users" element={<UsersManagement />} />
+            {/*All companies Management page  */}
+            <Route path="/admin/companies" element={<CompaniesManagement />} />
+            {/* All Jobs Management page */}
+            <Route path="/admin/jobs" element={<JobsManagement />} />
+            {/* All Applications Management page */}
+            <Route path="/admin/applications" element={<ApplicationsManagement />} /> 
+            {/* Route for viewing applications by job ID */}
+            <Route path="/applications" element={<ApplicationsPage />} />   
+            {/*Reset password page */}
+            <Route path="/reset-password" element={<ResetPassword />} />      
           </Routes>
         </Box>
         <Footer/>

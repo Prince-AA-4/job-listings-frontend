@@ -152,19 +152,16 @@ const UserProfile = () => {
           Manage your account information
         </Typography>
       </Box>
-
       {error && (
         <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
-
       {success && (
         <Alert severity="success" sx={{ mb: 3 }} onClose={() => setSuccess("")}>
           {success}
         </Alert>
       )}
-
       {/* Profile Card */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
@@ -237,7 +234,7 @@ const UserProfile = () => {
 
           {/* Profile Information */}
           <Grid container spacing={3}>
-            <Grid xs={12}>
+            <Grid size={12}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                 <PersonIcon sx={{ mr: 1, color: "text.secondary" }} />
                 <Typography variant="subtitle2" color="text.secondary">
@@ -259,7 +256,11 @@ const UserProfile = () => {
               )}
             </Grid>
 
-            <Grid xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                 <PersonIcon sx={{ mr: 1, color: "text.secondary" }} />
                 <Typography variant="subtitle2" color="text.secondary">
@@ -281,7 +282,11 @@ const UserProfile = () => {
               )}
             </Grid>
 
-            <Grid xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                 <WorkIcon sx={{ mr: 1, color: "text.secondary" }} />
                 <Typography variant="subtitle2" color="text.secondary">
@@ -297,7 +302,11 @@ const UserProfile = () => {
               </Typography>
             </Grid>
 
-            <Grid xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                 <EmailIcon sx={{ mr: 1, color: "text.secondary" }} />
                 <Typography variant="subtitle2" color="text.secondary">
@@ -320,7 +329,11 @@ const UserProfile = () => {
               )}
             </Grid>
 
-            <Grid xs={12} md={6}>
+            <Grid
+              size={{
+                xs: 12,
+                md: 6
+              }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                 <PhoneIcon sx={{ mr: 1, color: "text.secondary" }} />
                 <Typography variant="subtitle2" color="text.secondary">
@@ -345,7 +358,6 @@ const UserProfile = () => {
           </Grid>
         </CardContent>
       </Card>
-
       {/* Account Information */}
       <Card>
         <CardContent>
@@ -354,7 +366,11 @@ const UserProfile = () => {
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Grid container spacing={2}>
-            <Grid xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Typography variant="body2" color="text.secondary">
                 Account ID
               </Typography>
@@ -362,7 +378,11 @@ const UserProfile = () => {
                 #{user.id}
               </Typography>
             </Grid>
-            <Grid xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Typography variant="body2" color="text.secondary">
                 Account Created
               </Typography>
@@ -374,7 +394,11 @@ const UserProfile = () => {
                 })}
               </Typography>
             </Grid>
-            <Grid xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Typography variant="body2" color="text.secondary">
                 Last Updated
               </Typography>
@@ -386,7 +410,11 @@ const UserProfile = () => {
                 })}
               </Typography>
             </Grid>
-            <Grid xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6
+              }}>
               <Typography variant="body2" color="text.secondary">
                 Account Status
               </Typography>

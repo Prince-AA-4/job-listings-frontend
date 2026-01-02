@@ -58,7 +58,7 @@ const Register = () => {
         { withCredentials: true }
       );
 
-      setSuccess('Registration successful! Redirecting to login...');
+      setSuccess('Registration successful! Redirecting to jobs...');
       
       // Store token and user data
       localStorage.setItem('token', response.data.token);
@@ -66,7 +66,7 @@ const Register = () => {
 
       // Redirect after 2 seconds
       setTimeout(() => {
-        navigate('/login');
+        navigate('/jobs');
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');

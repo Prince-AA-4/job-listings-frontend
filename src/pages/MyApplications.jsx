@@ -122,7 +122,6 @@ const MyApplications = () => {
           Track your job applications and their status
         </Typography>
       </Box>
-
       {/* Filter */}
       <Box sx={{ mb: 3, display: "flex", gap: 2, alignItems: "center" }}>
         <FormControl sx={{ minWidth: 200 }}>
@@ -143,13 +142,11 @@ const MyApplications = () => {
           {applications.length} application(s) found
         </Typography>
       </Box>
-
       {error && (
         <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
-
       {/* Applications List */}
       {applications.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 8 }}>
@@ -167,7 +164,7 @@ const MyApplications = () => {
       ) : (
         <Grid container spacing={3}>
           {applications.map((application) => (
-            <Grid xs={12} key={application.id}>
+            <Grid key={application.id} size={12}>
               <Card
                 sx={{
                   transition: "box-shadow 0.3s",
@@ -179,7 +176,11 @@ const MyApplications = () => {
                 <CardContent>
                   <Grid container spacing={2} alignItems="center">
                     {/* Job Info */}
-                    <Grid xs={12} md={6}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        md: 6
+                      }}>
                       <Box
                         sx={{
                           display: "flex",
@@ -228,7 +229,11 @@ const MyApplications = () => {
                     </Grid>
 
                     {/* Status and Actions */}
-                    <Grid xs={12} md={6}>
+                    <Grid
+                      size={{
+                        xs: 12,
+                        md: 6
+                      }}>
                       <Box
                         sx={{
                           display: "flex",
@@ -341,7 +346,6 @@ const MyApplications = () => {
           ))}
         </Grid>
       )}
-
       {/* Statistics Summary */}
       {applications.length > 0 && (
         <Box sx={{ mt: 4, p: 3, bgcolor: "background.paper", borderRadius: 2 }}>
@@ -349,7 +353,11 @@ const MyApplications = () => {
             Application Statistics
           </Typography>
           <Grid container spacing={2}>
-            <Grid xs={6} sm={3}>
+            <Grid
+              size={{
+                xs: 6,
+                sm: 3
+              }}>
               <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h4" color="info.main" fontWeight="bold">
                   {
@@ -362,7 +370,11 @@ const MyApplications = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid xs={6} sm={3}>
+            <Grid
+              size={{
+                xs: 6,
+                sm: 3
+              }}>
               <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h4" color="warning.main" fontWeight="bold">
                   {
@@ -375,7 +387,11 @@ const MyApplications = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid xs={6} sm={3}>
+            <Grid
+              size={{
+                xs: 6,
+                sm: 3
+              }}>
               <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h4" color="success.main" fontWeight="bold">
                   {applications.filter((app) => app.status === "hired").length}
@@ -385,7 +401,11 @@ const MyApplications = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid xs={6} sm={3}>
+            <Grid
+              size={{
+                xs: 6,
+                sm: 3
+              }}>
               <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h4" color="error.main" fontWeight="bold">
                   {
