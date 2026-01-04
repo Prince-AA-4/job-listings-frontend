@@ -34,6 +34,7 @@ import {
   Visibility as VisibilityIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const CompaniesManagement = () => {
   const navigate = useNavigate();
@@ -127,6 +128,7 @@ const CompaniesManagement = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
         <Button
@@ -376,6 +378,7 @@ const CompaniesManagement = () => {
         </DialogActions>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

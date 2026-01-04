@@ -24,6 +24,7 @@ import {
   Work as WorkIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -142,6 +143,7 @@ const UserProfile = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="md" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
@@ -429,6 +431,7 @@ const UserProfile = () => {
         </CardContent>
       </Card>
     </Container>
+    </PageWrapper>
   );
 };
 

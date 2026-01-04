@@ -15,6 +15,7 @@ import {
   MenuItem
 } from '@mui/material';
 import axios from 'axios';
+import PageWrapper from '../components/PageWrapper.jsx';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ const Register = () => {
   };
 
   return (
+    <PageWrapper>
     <Container maxWidth="sm">
       <Box
         sx={{
@@ -207,6 +209,7 @@ const Register = () => {
         </Paper>
       </Box>
     </Container>
+    </PageWrapper>
   );
 };
 

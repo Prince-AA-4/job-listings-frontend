@@ -33,6 +33,7 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import JobApplicationForm from '../components/ApplicationForm';
+import PageWrapper from '../components/PageWrapper.jsx';
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -145,6 +146,7 @@ const JobDetails = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Back Button */}
       <Button
@@ -446,6 +448,7 @@ const JobDetails = () => {
         </DialogContent>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

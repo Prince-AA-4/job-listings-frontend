@@ -28,6 +28,7 @@ import {
   ManageAccounts as ManageAccountsIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ const AdminDashboard = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
@@ -442,6 +444,7 @@ const AdminDashboard = () => {
         </CardContent>
       </Card>
     </Container>
+    </PageWrapper>
   );
 };
 

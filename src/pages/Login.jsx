@@ -16,7 +16,7 @@ import {
   DialogActions
 } from '@mui/material';
 import axios from 'axios';
-
+import PageWrapper from '../components/PageWrapper.jsx';
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -102,6 +102,7 @@ const Login = () => {
   };
 
   return (
+    <PageWrapper>
     <Container maxWidth="sm">
       <Box
         sx={{
@@ -218,6 +219,7 @@ const Login = () => {
         </DialogActions>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

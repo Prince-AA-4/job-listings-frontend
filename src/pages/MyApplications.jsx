@@ -27,6 +27,7 @@ import {
   Visibility as ViewIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const MyApplications = () => {
   const navigate = useNavigate();
@@ -112,6 +113,7 @@ const MyApplications = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
@@ -422,6 +424,7 @@ const MyApplications = () => {
         </Box>
       )}
     </Container>
+    </PageWrapper>
   );
 };
 

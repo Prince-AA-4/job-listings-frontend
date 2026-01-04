@@ -38,43 +38,41 @@ const ApplicationsPage = () => {
   const [downloadingResume, setDownloadingResume] = useState(null);
 
   useEffect(() => {
-  const fetchApplications = async () => {
-    if (!jobId) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError("");
-      
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `http://localhost:5600/api/applications/job/${jobId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        }
-      );
-
-      // console.log("Response:", response.data.applications);
-      setApplications(response.data.applications || []);
-
-      // Get job title
-      if (response.data.applications?.[0]?.job?.title) {
-        setJobTitle(response.data.applications[0].job.title);
+    const fetchApplications = async () => {
+      if (!jobId) {
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setError(error.response?.data?.message || "Failed to fetch applications");
-      setApplications([]); 
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  fetchApplications();
-}, [jobId]);
+      try {
+        setLoading(true);
+        setError("");
+        
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:5600/api/applications/job/${jobId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          }
+        );
+        setApplications(response.data.applications || []);
+
+        // Get job title
+        if (response.data.applications?.[0]?.job?.title) {
+          setJobTitle(response.data.applications[0].job.title);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setError(error.response?.data?.message || "Failed to fetch applications");
+        setApplications([]); 
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplications();
+  }, [jobId]);
 
   const handleStatusChange = async (applicationId, newStatus) => {
     try {

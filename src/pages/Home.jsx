@@ -10,11 +10,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Work, Business, People, TrendingUp } from "@mui/icons-material";
 import HeroSection from "../components/HeroCarousel.jsx";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
+    <PageWrapper>
     <Box>
       {/* Hero Section with Background Image */}
       <HeroSection />
@@ -272,6 +274,7 @@ const Home = () => {
         </Container>
       </Box>
     </Box>
+    </PageWrapper>
   );
 };
 

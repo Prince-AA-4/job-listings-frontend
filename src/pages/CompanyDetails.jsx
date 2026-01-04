@@ -25,6 +25,7 @@ import {
   Delete as DeleteIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const CompanyDetails = () => {
   const { id } = useParams();
@@ -109,6 +110,7 @@ const CompanyDetails = () => {
 
   if (error || !company) {
     return (
+      <PageWrapper>
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Alert severity="error">{error || "Company not found"}</Alert>
         <Button
@@ -119,10 +121,12 @@ const CompanyDetails = () => {
           Back to Companies
         </Button>
       </Container>
+      </PageWrapper>
     );
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Back Button */}
       <Button
@@ -421,6 +425,7 @@ const CompanyDetails = () => {
         </Grid>
       </Grid>
     </Container>
+    </PageWrapper>
   );
 };
 

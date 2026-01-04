@@ -29,6 +29,7 @@ import {
   Work as WorkIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const MyCompanies = () => {
   const navigate = useNavigate();
@@ -168,6 +169,7 @@ const MyCompanies = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box
@@ -418,6 +420,7 @@ const MyCompanies = () => {
         </DialogActions>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

@@ -38,6 +38,7 @@ import {
   Business as BusinessIcon
 } from '@mui/icons-material';
 import axios from 'axios';
+import PageWrapper from '../components/PageWrapper.jsx';
 
 const MyJobPosts = () => {
   const navigate = useNavigate();
@@ -237,6 +238,7 @@ const MyJobPosts = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
@@ -487,6 +489,7 @@ const MyJobPosts = () => {
         </DialogActions>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

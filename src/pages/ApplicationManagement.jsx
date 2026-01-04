@@ -35,6 +35,7 @@ import {
   GetApp as GetAppIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const ApplicationsManagement = () => {
   const navigate = useNavigate();
@@ -180,6 +181,7 @@ const ApplicationsManagement = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
         <Button
@@ -470,6 +472,7 @@ const ApplicationsManagement = () => {
         </DialogActions>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

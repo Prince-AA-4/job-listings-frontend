@@ -8,12 +8,14 @@ import {
 } from "@mui/material";
 import { ArrowCircleRightOutlined } from "@mui/icons-material";
 import HeroSection from "./HeroCarousel.jsx";
+import PageWrapper from "./PageWrapper.jsx";
 // import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
+    <PageWrapper>
     <Box
       sx={{
         position: "relative",
@@ -78,6 +80,7 @@ const Hero = () => {
         </Button>
       </Box>
     </Box>
+    </PageWrapper>
   );
 };
 

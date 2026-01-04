@@ -33,6 +33,7 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper.jsx";
 
 const UserManagement = () => {
   const navigate = useNavigate();
@@ -155,6 +156,7 @@ const UserManagement = () => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
         <Button
@@ -324,6 +326,7 @@ const UserManagement = () => {
         </DialogActions>
       </Dialog>
     </Container>
+    </PageWrapper>
   );
 };
 

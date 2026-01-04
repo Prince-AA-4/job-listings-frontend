@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/material';
@@ -22,6 +22,7 @@ import JobsManagement from './pages/JobsManagement.jsx';
 import ApplicationsManagement from './pages/ApplicationManagement.jsx';
 import ApplicationsPage from './pages/EmployersApplications.jsx';
 import ResetPassword from './pages/RessetPassword.jsx';
+import { AnimatePresence } from 'framer-motion';
 
 const theme = createTheme({
   palette: {
@@ -35,13 +36,15 @@ const theme = createTheme({
 });
 
 function App() {
+  const location = useLocation();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter>
+    
         <Navbar />
         <Box>
-          <Routes>
+          <AnimatePresence mode='wait'>
+          <Routes location={location} key={location.pathname}>
             {/* Home page with Hero section */}
             <Route path="/" element={<Home />} />
             {/* Auth pages */}
@@ -78,9 +81,9 @@ function App() {
             {/*Reset password page */}
             <Route path="/reset-password" element={<ResetPassword />} />      
           </Routes>
+          </AnimatePresence>
         </Box>
         <Footer/>
-      </BrowserRouter>
     </ThemeProvider>
   );
 }

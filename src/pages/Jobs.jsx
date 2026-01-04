@@ -27,6 +27,7 @@ import {
   AccessTime as TimeIcon
 } from '@mui/icons-material';
 import axios from 'axios';
+import PageWrapper from '../components/PageWrapper.jsx';
 
 const JobsList = () => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const fetchJobs = async (applyFilters = true) => {
   }
 
   return (
+    <PageWrapper>
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
@@ -346,6 +348,7 @@ const fetchJobs = async (applyFilters = true) => {
         </Grid>
       )}
     </Container>
+    </PageWrapper>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, TextField, Button, Alert, Paper } from '@mui/material';
 import axios from 'axios';
+import PageWrapper from '../components/PageWrapper.jsx';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -49,6 +50,7 @@ const ResetPassword = () => {
   };
 
   return (
+    <PageWrapper>
     <Container maxWidth="sm">
       <Box sx={{ mt: 8 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
@@ -93,6 +95,7 @@ const ResetPassword = () => {
         </Paper>
       </Box>
     </Container>
+    </PageWrapper>
   );
 };
 
